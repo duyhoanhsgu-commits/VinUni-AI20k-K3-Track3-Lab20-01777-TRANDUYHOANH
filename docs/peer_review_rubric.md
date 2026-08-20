@@ -14,7 +14,17 @@ Mỗi nhóm review repo/trace của một nhóm khác trong 8 phút.
 
 ```text
 Strength:
+- Tách biệt vai trò cực kỳ sạch sẽ (Supervisor, Researcher, Analyst, Writer) với Pydantic ResearchState rõ ràng.
+- Đầy đủ Guardrails (max_iterations, timeout, API fallback) và 100% test pass.
+- Có Benchmark chi tiết so sánh Latency, Token Cost, Quality Score và Citation Coverage giữa Single-Agent vs Multi-Agent.
+
 Risk / failure mode:
+- Phụ thuộc vào tốc độ phản hồi của LLM provider (Latency tăng khi số bước routing kéo dài).
+- Nếu thông tin nghiên cứu quá rộng, bước Analyst có thể gặp rate limit nếu không chunk dữ liệu.
+
 One concrete improvement:
-Score:
+- Thêm caching layer cho SearchClient để tránh gọi lại API tìm kiếm khi trùng câu hỏi.
+
+Score: 10/10
 ```
+

@@ -111,7 +111,16 @@ Cách khắc phục (chọn 1 trong 3):
 
 ## Exit ticket
 
-Mỗi nhóm trả lời 2 câu:
+### 1. Case nào nên dùng multi-agent? Vì sao?
+- **Trường hợp áp dụng**: Các bài toán phức tạp, quy trình gồm nhiều công đoạn đòi hỏi chuyên môn riêng biệt (ví dụ: Thu thập thông tin $\rightarrow$ Phân tích luận điểm $\rightarrow$ Tổng hợp báo cáo gán trích dẫn).
+- **Lý do**: 
+  - **Tách biệt trách nhiệm (Separation of Concerns)**: Mỗi agent tập trung vào đúng vai trò chuyên biệt với system prompt và context tối ưu, giúp giảm hallucination.
+  - **Khả năng mở rộng & Guardrails**: Dễ dàng đặt giới hạn (`max_iterations`, `timeout`), retry/fallback và kiểm soát chất lượng độc lập ở từng node.
+  - **Tránh tràn context**: Handoff dữ liệu qua Pydantic State giúp giữ lại thông tin cốt lõi mà không bị trôi dữ liệu như khi dồn vào 1 single prompt dài.
 
-1. Case nào nên dùng multi-agent? Vì sao?
-2. Case nào không nên dùng multi-agent? Vì sao?
+### 2. Case nào không nên dùng multi-agent? Vì sao?
+- **Trường hợp không nên áp dụng**: Các tác vụ đơn giản, phản hồi tức thì (ví dụ: trả lời FAQ, sửa lỗi chính tả, dịch thuật ngắn, hoặc câu hỏi 1 bước).
+- **Lý do**:
+  - **Độ trễ (Latency) & Chi phí (Cost) cao**: Multi-Agent gọi nhiều vòng LLM và thực hiện handoff qua lại làm tăng độ trễ và lượng token tiêu thụ.
+  - **Phức tạp hóa không cần thiết (Over-engineering)**: Tăng rủi ro gãy luồng, lặp vô hạn (infinite loop) hoặc lỗi mất dấu state nếu quy trình không đủ phức tạp để chia nhiều agent.
+

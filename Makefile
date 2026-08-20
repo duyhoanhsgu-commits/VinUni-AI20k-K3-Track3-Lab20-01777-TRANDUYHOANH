@@ -1,25 +1,30 @@
+PYTHON ?= .venv/bin/python3
+
 .PHONY: install test lint format typecheck run-baseline run-multi clean
 
 install:
-	pip install -e ".[dev,llm]"
+	$(PYTHON) -m pip install -e ".[dev,llm]"
 
 test:
-	pytest
+	PYTHONPATH=src $(PYTHON) -m pytest
 
 lint:
-	ruff check src tests
+	$(PYTHON) -m ruff check src tests
 
 format:
-	ruff format src tests
+	$(PYTHON) -m ruff format src tests
 
 typecheck:
-	mypy src
+	$(PYTHON) -m mypy src
 
 run-baseline:
-	python -m multi_agent_research_lab.cli baseline --query "Research GraphRAG state-of-the-art"
+	PYTHONPATH=src $(PYTHON) -m multi_agent_research_lab.cli baseline --query "Research GraphRAG state-of-the-art"
 
 run-multi:
-	python -m multi_agent_research_lab.cli multi-agent --query "Research GraphRAG state-of-the-art"
+	PYTHONPATH=src $(PYTHON) -m multi_agent_research_lab.cli multi-agent --query "Research GraphRAG state-of-the-art"
+
+run-benchmark:
+	PYTHONPATH=src $(PYTHON) -m multi_agent_research_lab.cli benchmark
 
 clean:
 	rm -rf .pytest_cache .ruff_cache .mypy_cache dist build *.egg-info
